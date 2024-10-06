@@ -1,0 +1,23 @@
+﻿@model WebAppDBMS.Models.Column
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Please, specify column to delete</h3>
+<div>
+    <h4>Column</h4>
+    <hr />
+    <form asp-action="Delete">
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <select asp-for="Id" class="form-control" asp-items="ViewBag.Id"></select>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <input type="hidden" asp-for="TableId" value="@ViewBag.TableId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index" asp-controller="Rows" asp-route-tableId="@ViewBag.TableId">Back to List</a>
+    </form>
+</div>

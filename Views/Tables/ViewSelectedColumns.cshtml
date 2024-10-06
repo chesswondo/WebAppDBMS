@@ -1,0 +1,26 @@
+﻿@model WebAppDBMS.Models.TableViewModel
+
+<h2>Table: @Model.Table.Name</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            @foreach (var column in Model.FilteredColumns)
+            {
+                <th>@column.Name</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in Model.Rows)
+        {
+            <tr>
+                @foreach (var column in Model.FilteredColumns)
+                {
+                    var cell = row.Cells.ToArray().FirstOrDefault(c => c.ColumnID == column.Id); // Use ToArray() to ensure it’s not dynamic
+                    <td>@(cell?.Value ?? "")</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

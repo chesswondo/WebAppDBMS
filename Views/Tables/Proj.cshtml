@@ -1,0 +1,68 @@
+﻿@model WebAppDBMS.Models.Database
+@{
+    var databaseId = ViewBag.DatabaseId;
+}
+
+<form asp-action="TableProj" method="post">
+    <!-- Select Table Dropdown -->
+    <div class="form-group">
+        <label for="SelectedTable">Select Table</label>
+        <select id="SelectedTable" name="SelectedTable" class="form-control" onchange="updateColumns()" required>
+            <option value="">-- Select a Table --</option>
+            @foreach (var table in ViewBag.Tables)
+            {
+                <option value="@table.Value">@table.Text</option>
+            }
+        </select>
+    </div>
+
+    <!-- Columns Checkboxes -->
+    <div class="form-group">
+        <label>Select Columns</label>
+        <div id="ColumnsCheckboxes">
+            <!-- Checkboxes will be dynamically populated here -->
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script>
+    function updateColumns() {
+        var selectedTableId = document.getElementById("SelectedTable").value;
+        var columnsContainer = document.getElementById("ColumnsCheckboxes");
+
+        // Clear previous checkboxes
+        columnsContainer.innerHTML = '';
+
+        if (selectedTableId) {
+            // Make an AJAX call to fetch the columns for the selected table
+            fetch('/Tables/GetColumns?tableId=' + selectedTableId)
+                .then(response => response.json())
+                .then(data => {
+                    // Populate checkboxes for columns
+                    data.forEach(function (column) {
+                        var checkboxWrapper = document.createElement('div');
+                        checkboxWrapper.classList.add('form-check'); // Optional Bootstrap class for styling
+
+                        var checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.classList.add('form-check-input'); // Optional Bootstrap class for styling
+                        checkbox.name = 'SelectedColumns'; // The name should match the form field
+                        checkbox.value = column.Id;
+                        checkbox.id = 'column_' + column.Id;
+
+                        var label = document.createElement('label');
+                        label.classList.add('form-check-label'); // Optional Bootstrap class for styling
+                        label.htmlFor = 'column_' + column.Id;
+                        label.textContent = column.Name;
+
+                        checkboxWrapper.appendChild(checkbox);
+                        checkboxWrapper.appendChild(label);
+                        columnsContainer.appendChild(checkboxWrapper);
+                    });
+                })
+                .catch(error => console.error('Error fetching columns:', error));
+        }
+    }
+</script>

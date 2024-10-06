@@ -1,0 +1,42 @@
+﻿@model WebAppDBMS.Models.Row
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Row</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            @for (int i = 0; i < ViewBag.Table.Columns.Count; i++)
+            {
+                var col = ViewBag.Table.Columns[i];
+                <div class="form-group">
+                    <input type="hidden" asp-for="Cells[i].Id" />
+                    <label asp-for="Cells[i].Value" class="control-label">@col.Name</label>
+                    <input asp-for="Cells[i].Value" class="form-control" />
+                    <input type="hidden" asp-for="Cells[i].ColumnID" value="@col.Id" />
+                </div>
+            }
+            <div class="form-group">
+                <input type="hidden" value="@ViewBag.Table.Id" name="TableId" />
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-route-tableId="@ViewBag.Table.Id">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

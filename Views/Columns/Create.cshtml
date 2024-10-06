@@ -1,0 +1,49 @@
+﻿@model WebAppDBMS.Models.Column
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Column</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TypeFullName" class="control-label"></label>
+                <input asp-for="TypeFullName" class="form-control" list="types" />
+                <datalist id="types">
+                    <option>System.Int32</option>
+                    <option>System.Single</option>
+                    <option>System.Char</option>
+                    <option>System.String</option>
+                    <option>EmailAddress</option>
+                    <option>Enum</option>
+                </datalist>
+                <span asp-validation-for="TypeFullName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" value="@ViewBag.TableId" name="TableId" />
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-controller="Rows" asp-route-tableId="@ViewBag.TableId">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

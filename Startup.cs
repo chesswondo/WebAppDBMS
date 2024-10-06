@@ -1,15 +1,4 @@
-﻿/*namespace WebAppDBMS
-{
-    public class Startup
-    {
-    }
-}*/
-
-using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.EntityFrameworkCore;
 using WebAppDBMS.Models;
 
 namespace DBMSWebApp
@@ -27,6 +16,10 @@ namespace DBMSWebApp
         {
             services.AddDbContext<DBContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            // To preserve the original property names
+            services.AddControllers().AddJsonOptions(options =>
+                    options.JsonSerializerOptions.PropertyNamingPolicy = null);
 
             services.AddControllersWithViews();
         }
