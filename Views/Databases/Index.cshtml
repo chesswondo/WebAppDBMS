@@ -22,10 +22,10 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td bgcolor="#8ecae6">
+                <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
-                <td bgcolor="#8ecae6">
+                <td>
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
