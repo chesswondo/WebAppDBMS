@@ -23,6 +23,7 @@ namespace WebAppDBMS.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Server= WIN-EJ3KQB83H47\\SQLEXPRESS;\nDatabase=WebAppDBMS; Trusted_Connection=True; Trust Server Certificate=True;");
 
+        // Configuring the relationships and rules between the entities
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Database>(entity =>

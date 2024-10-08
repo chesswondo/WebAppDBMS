@@ -44,7 +44,7 @@ namespace WebAppDBMS.Controllers
                     if (!CellValid(row.Cells[i].Value, row.Cells[i].ColumnID))
                     {
                         var col = _context.Columns.Find(row.Cells[i].ColumnID);
-                        ModelState.AddModelError("Cells", string.Format("Column {0} must be {1} type", col.Name, col.TypeFullName));
+                        ModelState.AddModelError("Cells", string.Format("Column {0} must be type {1}", col.Name, col.TypeFullName));
                         var table = _context.Tables.Where(t => t.Id == row.TableId).Include(t => t.Columns).First();
                         ViewBag.Table = table;
                         return View(row);
@@ -101,7 +101,7 @@ namespace WebAppDBMS.Controllers
                     if (!CellValid(row.Cells[i].Value, row.Cells[i].ColumnID))
                     {
                         var col = _context.Columns.Find(row.Cells[i].ColumnID);
-                        ModelState.AddModelError("Cells", string.Format("Column {0} has {1} type", col.Name, col.TypeFullName));
+                        ModelState.AddModelError("Cells", string.Format("Column {0} has type {1}", col.Name, col.TypeFullName));
                         var table = _context.Tables.Where(t => t.Id == row.TableId).Include(t => t.Columns).First();
                         ViewBag.Table = table;
                         return View(row);
@@ -170,6 +170,7 @@ namespace WebAppDBMS.Controllers
             return _context.Rows.Any(e => e.Id == id);
         }
 
+        //  Checks if a given cell value is valid based on the type of the column it belongs to
         public bool CellValid(string Value, int ColumnID)
         {
             var col = _context.Columns.Find(ColumnID);
@@ -201,6 +202,8 @@ namespace WebAppDBMS.Controllers
 
             return false;
         }
+
+        // Checks if a string value can be successfully converted to a specified type
         private bool CheckCast(string value, string type)
         {
             if (value == null) return true;

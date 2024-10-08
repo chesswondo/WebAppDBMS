@@ -36,7 +36,7 @@ namespace WebAppDBMS.Controllers
             {
                 ViewBag.ErrorMessage = "You cannot add new columns when your table is not empty.";
                 ViewBag.TableId = tableId;
-                return View("AddColumnError"); // We'll render an error view in this case
+                return View("AddColumnError"); // Render an error view in this case
             }
 
             ViewBag.TableId = tableId;
@@ -116,7 +116,6 @@ namespace WebAppDBMS.Controllers
             return _context.Columns.Any(e => e.Id == id);
         }
 
-        // --CHECK LATER--
         public IActionResult TypeValid(string? TypeFullName)
         {
             if (TypeFullName.Contains("Enum") || TypeFullName.Contains("EmailAddress"))
